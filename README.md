@@ -109,7 +109,4 @@ python app.py --query "..." --rebuild-rag   # 벡터스토어 강제 재빌드
 
 ## Contributors
 
-- 홍길동 : Supervisor Agent 설계, LangGraph StateGraph 구현, 시스템 통합
-- 김철수 : RAG 파이프라인 구현 (FAISS, BM25 Hybrid Search, 임베딩 선정)
-- 이영희 : Web Search Agent 구현, Tavily 연동, TRL 간접지표 추출 로직
-- 박민준 : Report Generator 프롬프트 엔지니어링, PDF Export 구현
+- 이다예 : web search agent 설계, api 연동
