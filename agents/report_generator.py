@@ -102,7 +102,15 @@ def report_generator_node(state: AgentState) -> Dict[str, Any]:
         query=query,
         rag_results=rag_formatted,
         web_results=web_formatted,
-    ) + f"\n\n## TRL Evaluator 산출 결과 (3.3절에 반드시 반영)\n{trl_formatted}"
+    ) + f"""
+
+## TRL Evaluator 산출 결과 (3.3절 ① 매트릭스 + ② 근거표에 반드시 반영)
+
+아래 TRLEvaluator가 산출한 기업·기술별 TRL과 근거를 보고서 3.3절에 그대로 옮겨 적을 것.
+특히 evidence 항목(특허, 학회발표, 채용공고, IR 발표 등)을 ② 근거표에 빠짐없이 기재할 것.
+
+{trl_formatted}
+"""
 
     today = datetime.now().strftime("%Y년 %m월 %d일 %H:%M")
     system_prompt = REPORT_SYSTEM_PROMPT.format(query=query, date=today)
