@@ -118,6 +118,6 @@ python app.py --query "Samsung HBM4 Hybrid Bonding 기술 동향 분석"
 
 ## Contributors
 
-- 최태성 : LangGraph Supervisor Pattern 설계, Multi-Agent Workflow 구현, 시스템 통합
-- 이다예 : Web Search Agent 설계, Semantic Scholar·KIPRIS·Samsung Careers API 연동, 확증 편향 방지 전략 구현
-- 신경은 : RAG Agent 성능 개선 (BM25+Dense Hybrid Search, CrossEncoder Reranker, Query Expansion, 문서 유형별 청킹 전략)
+- 신경은(kyungeune) : RAG Agent 성능 개선 (BM25+Dense Hybrid Search, CrossEncoder Reranker, Query Expansion, 문서 유형별 청킹 전략)
+- 이다예(pucomaru) : Web Search Agent 설계, Semantic Scholar·KIPRIS·Samsung Careers API 연동, 확증 편향 방지 전략 구현
+- 최태성(slimshady913) : LangGraph Supervisor Pattern 설계, Multi-Agent Workflow 구현, 시스템 통합
