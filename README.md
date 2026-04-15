@@ -109,4 +109,6 @@ python app.py --query "..." --rebuild-rag   # 벡터스토어 강제 재빌드
 
 ## Contributors
 
-- 이다예 : web search agent 설계, api 연동
+- 최태성 : 전반적인 코드 흐름 설계 및 Agent 간 Workflow 구현
+- 이다예 : web search agent 설계, api 연동, 최신 정보 수집 로직 고도화
+- 신경은 : RAG Agent 성능 개선 (Hybrid Search, Reranker 적용 및 검색 정확도 향상)
