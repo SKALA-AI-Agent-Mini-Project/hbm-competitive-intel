@@ -1,7 +1,7 @@
 """
 Report Generator — HBM Competitive R&D Intelligence System
 통합: 팀 개선(RAGResult/WebResult TypedDict, 섹션 검증, outputs/ 저장)
-     + trl_assessment 활용
+     + trl_assessment 활용(교수 피드백)
 """
 import json
 import logging
@@ -104,13 +104,16 @@ def report_generator_node(state: AgentState) -> Dict[str, Any]:
         web_results=web_formatted,
     ) + f"\n\n## TRL Evaluator 산출 결과 (3.3절에 반드시 반영)\n{trl_formatted}"
 
+    today = datetime.now().strftime("%Y년 %m월 %d일 %H:%M")
+    system_prompt = REPORT_SYSTEM_PROMPT.format(query=query, date=today)
+
     logger.info("Report Generator: 보고서 초안 생성 시작")
     missing     = []
     saved_path  = None
 
     try:
         response       = llm.invoke([
-            SystemMessage(content=REPORT_SYSTEM_PROMPT),
+            SystemMessage(content=system_prompt),
             HumanMessage(content=generation_prompt),
         ])
         report_content = response.content.strip()

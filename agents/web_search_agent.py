@@ -1,8 +1,4 @@
 """
-Web Search Agent 노드
-설계서 2-3: 경쟁사 최신 공개 정보 수집 — TRL 간접지표 획득
-"""
-"""
 Web Search Agent — HBM Competitive R&D Intelligence System
 """
 
@@ -35,8 +31,14 @@ _FALLBACK_QUERIES = {
 
 
 def _generate_search_queries(instruction: str, query: str, llm: ChatOpenAI) -> List[str]:
-    prompt = f"""아래 분석 목표에 맞는 웹 검색 쿼리를 최대 4개 생성하세요.
+    prompt = f"""아래 분석 목표에 맞는 웹 검색 쿼리를 최대 6개 생성하세요.
 경쟁사(Samsung·Micron)의 특허·논문·IR·채용공고를 수집하기 위한 영어 검색 쿼리입니다.
+
+## 확증 편향 방지 원칙
+쿼리는 반드시 아래 두 유형을 균형 있게 포함해야 합니다:
+- 긍정 탐색(경쟁사 기술 성과·강점): 2~3개
+- 반론 탐색(지연·수율 이슈·한계·실패): 2~3개
+예) "Samsung HBM4 yield issues delays" / "Micron HBM4 challenges limitations"
 
 ## 분석 목표
 {query}
@@ -45,7 +47,7 @@ def _generate_search_queries(instruction: str, query: str, llm: ChatOpenAI) -> L
 {instruction}
 
 ## 출력 형식 (JSON 배열만, 설명 없이)
-["쿼리1", "쿼리2", "쿼리3", "쿼리4"]
+["긍정쿼리1", "긍정쿼리2", "반론쿼리1", "반론쿼리2", "중립쿼리1", "중립쿼리2"]
 """
     try:
         response = llm.invoke(prompt)
@@ -57,7 +59,7 @@ def _generate_search_queries(instruction: str, query: str, llm: ChatOpenAI) -> L
         queries = json.loads(raw)
         if isinstance(queries, list) and all(isinstance(q, str) for q in queries):
             logger.info(f"LLM 생성 검색 쿼리: {queries}")
-            return queries[:4]
+            return queries[:6]
     except Exception as e:
         logger.warning(f"LLM 쿼리 생성 실패, 폴백 사용: {e}")
 
@@ -79,7 +81,13 @@ def _generate_search_queries(instruction: str, query: str, llm: ChatOpenAI) -> L
             _FALLBACK_QUERIES["samsung_hbm4"],
             _FALLBACK_QUERIES["micron_hbm4"],
         ]
-    return fallback[:4]
+    # 확증 편향 방지: 반론 쿼리 자동 추가
+    counter_queries = [
+        "Samsung HBM4 yield issues production delays 2024 2025",
+        "Micron HBM4 challenges limitations competition 2024 2025",
+        "HBM memory market risks SK Hynix competitors weakness",
+    ]
+    return (fallback + counter_queries)[:6]
 
 
 def _collect_raw_results(search_queries: List[str]) -> List[Dict]:
@@ -144,6 +152,11 @@ def _analyze_with_llm(raw_results: List[Dict], query: str, llm: ChatOpenAI) -> L
 
     prompt = f"""아래는 "{query}" 관련 웹 검색 결과입니다.
 각 항목을 분석하여 TRL 추정 근거를 포함한 JSON 배열로 반환하세요.
+
+## 확증 편향 방지 지시
+- 경쟁사의 강점뿐만 아니라 지연·수율 이슈·한계도 summary에 균형 있게 반영하세요.
+- trl_clue는 긍정 신호(양산, 학회 발표)와 부정 신호(수율 이슈, 미공개 구간)를 모두 포함하세요.
+- "TRL 추정 근거 없음" 대신 중립적 요약("정보 부족으로 추정 불가")으로 표기하세요.
 
 ## 수집된 정보
 {formatted}
