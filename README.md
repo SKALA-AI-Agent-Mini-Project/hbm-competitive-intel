@@ -1,5 +1,5 @@
 # SK Hynix HBM Competitive Intelligence System
-(수정용)
+
 Samsung·Micron의 HBM 관련 R&D 공개 정보를 자동 수집·분석하여, SK Hynix R&D 팀이 즉시 활용 가능한 TRL 기반 경쟁사 기술 전략 보고서를 생성하는 Agentic Workflow 시스템.
 
 ## Overview
