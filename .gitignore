@@ -1,0 +1,69 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+# C extensions
+*.so
+# =========================
+# Virtual Environment
+# =========================
+venv/
+.venv/
+env/
+ENV/
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+# =========================
+# Environment Variables / Secrets
+# =========================
+.env
+.env.*
+!.env.example
+# =========================
+# OS / Editor
+# =========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+# =========================
+# Python packaging / build
+# =========================
+build/
+dist/
+.eggs/
+*.egg-info/
+pip-wheel-metadata/
+# =========================
+# Test / coverage / cache
+# =========================
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+# =========================
+# Logs
+# =========================
+*.log
+# =========================
+# Project outputs
+# =========================
+outputs/
+*.html
+*.pdf
+# =========================
+# Vector store / generated index
+# =========================
+rag/vectorstore/
+data/vectorstore/
+# =========================
+# Local runtime / temp files
+# =========================
+*.tmp
+*.temp
